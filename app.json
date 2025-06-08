@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.shopify.notifications",
-      "buildNumber": "1",
+      "buildNumber": "1.0.0",
       "infoPlist": {
         "UIBackgroundModes": ["background-processing", "background-fetch"],
         "NSUserNotificationAlertStyle": "alert"
@@ -37,9 +37,14 @@
         {
           "icon": "./assets/notification-icon.png",
           "color": "#95bf47",
-          "sounds": ["./assets/notification.wav"]
+          "sounds": ["./assets/notification-sound.wav"]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id-here"
+      }
+    }
   }
 }
