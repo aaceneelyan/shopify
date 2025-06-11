@@ -41,7 +41,7 @@ function PushNotificationManager() {
   const lastResetDateRef = useRef(new Date().toDateString())
 
   const [settings, setSettings] = useState<NotificationSettings>({
-    frequency: "5",
+    frequency: "5", // This will now support seconds format like "10s"
     maxNotifications: 10,
     orderThreshold: 0,
     customBody: "{store} has a new order for {items} item(s) totaling ${amount} from Online Store.",
@@ -107,13 +107,13 @@ function PushNotificationManager() {
     const body = formatNotificationBody(settings.customBody, order)
 
     if (Notification.permission === "granted") {
-      // Empty title - let iOS automatically add "Shopify"
-      const notification = new Notification("", {
+      // Use undefined title to let iOS handle it completely
+      const notification = new Notification(undefined as any, {
         body: body,
         icon: settings.customLogo || "/shopify-logo.jpg",
         badge: "/shopify-logo.jpg",
-        tag: `order-${order.orderId}-${Date.now()}`, // Unique tag for each notification
-        requireInteraction: true, // Persist until user dismisses
+        tag: `order-${order.orderId}-${Date.now()}`,
+        requireInteraction: true,
         silent: false,
         timestamp: Date.now(),
         data: {
@@ -122,12 +122,6 @@ function PushNotificationManager() {
           items: order.items,
           url: "/",
         },
-        actions: [
-          {
-            action: "view",
-            title: "View Order",
-          },
-        ],
       })
 
       // Handle click - focus window and close notification
@@ -153,7 +147,7 @@ function PushNotificationManager() {
     }
 
     // Add to history
-    const newHistory = [order, ...notificationHistory.slice(0, 19)] // Keep last 20
+    const newHistory = [order, ...notificationHistory.slice(0, 19)]
     setNotificationHistory(newHistory)
     localStorage.setItem("notification-history", JSON.stringify(newHistory))
   }
@@ -206,8 +200,17 @@ function PushNotificationManager() {
       lastResetDateRef.current = currentDate
     }
 
-    const frequencyMinutes = Number.parseInt(settings.frequency)
-    const intervalMs = frequencyMinutes * 60 * 1000
+    // Handle both seconds and minutes
+    let intervalMs: number
+    if (settings.frequency.endsWith("s")) {
+      // Seconds format (e.g., "10s")
+      const seconds = Number.parseInt(settings.frequency.replace("s", ""))
+      intervalMs = seconds * 1000
+    } else {
+      // Minutes format (e.g., "5")
+      const frequencyMinutes = Number.parseInt(settings.frequency)
+      intervalMs = frequencyMinutes * 60 * 1000
+    }
 
     intervalRef.current = setInterval(() => {
       // Check if we've reached the daily limit
@@ -405,6 +408,10 @@ function PushNotificationManager() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="2s">Every 2 seconds</SelectItem>
+                      <SelectItem value="5s">Every 5 seconds</SelectItem>
+                      <SelectItem value="10s">Every 10 seconds</SelectItem>
+                      <SelectItem value="20s">Every 20 seconds</SelectItem>
                       <SelectItem value="1">Every minute</SelectItem>
                       <SelectItem value="5">Every 5 minutes</SelectItem>
                       <SelectItem value="15">Every 15 minutes</SelectItem>
