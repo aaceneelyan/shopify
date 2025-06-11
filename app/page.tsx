@@ -108,7 +108,7 @@ function PushNotificationManager() {
 
     if (Notification.permission === "granted") {
       // iOS-style notification without "New Order" in title
-      const notification = new Notification(`Order ${order.orderId}`, {
+      const notification = new Notification(`Shopify`, {
         body: body,
         icon: settings.customLogo || "/shopify-logo.jpg",
         badge: "/shopify-logo.jpg",
