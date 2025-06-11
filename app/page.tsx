@@ -44,7 +44,7 @@ function PushNotificationManager() {
     frequency: "5",
     maxNotifications: 10,
     orderThreshold: 0,
-    customBody: "You have a new order for {items} item(s) totaling ${amount} from {store}.",
+    customBody: "You have a new order for {items} item(s) totaling ${amount}.",
     storeName: "Online Store",
     notificationColor: "#95bf47",
     customLogo: null,
