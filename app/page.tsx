@@ -44,8 +44,8 @@ function PushNotificationManager() {
     frequency: "5",
     maxNotifications: 10,
     orderThreshold: 0,
-    customBody: "New order: {items} item(s), ${amount}",
-    storeName: "Online Store",
+    customBody: "{store} has a new order for {items} item(s) totaling ${amount} from Online Store.",
+    storeName: "HoH Fashion",
     notificationColor: "#95bf47",
     customLogo: null,
   })
@@ -107,8 +107,8 @@ function PushNotificationManager() {
     const body = formatNotificationBody(settings.customBody, order)
 
     if (Notification.permission === "granted") {
-      // iOS-style notification without "New Order" in title
-      const notification = new Notification(`Shopify`, {
+      // Empty title - let iOS automatically add "Shopify"
+      const notification = new Notification("", {
         body: body,
         icon: settings.customLogo || "/shopify-logo.jpg",
         badge: "/shopify-logo.jpg",
@@ -442,7 +442,7 @@ function PushNotificationManager() {
                     id="storeName"
                     value={settings.storeName}
                     onChange={(e) => saveSettings({ ...settings, storeName: e.target.value })}
-                    placeholder="Online Store"
+                    placeholder="HoH Fashion"
                     className="rounded-xl border-gray-300"
                   />
                 </div>
@@ -455,7 +455,7 @@ function PushNotificationManager() {
                     id="customBody"
                     value={settings.customBody}
                     onChange={(e) => saveSettings({ ...settings, customBody: e.target.value })}
-                    placeholder="You have a new order..."
+                    placeholder="{store} has a new order..."
                     className="rounded-xl border-gray-300"
                   />
                   <p className="text-xs text-gray-500">
