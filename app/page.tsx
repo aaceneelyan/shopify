@@ -108,7 +108,7 @@ function PushNotificationManager() {
 
     if (Notification.permission === "granted") {
       // Use undefined title to let iOS handle it completely
-      const notification = new Notification("", {
+      const notification = new Notification("New Order", {
         body: body,
         icon: settings.customLogo || "/shopify-logo.jpg",
         badge: "/shopify-logo.jpg",
