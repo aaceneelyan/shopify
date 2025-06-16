@@ -408,6 +408,7 @@ function PushNotificationManager() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="0.5s">Every 0.5 seconds</SelectItem>
                       <SelectItem value="2s">Every 2 seconds</SelectItem>
                       <SelectItem value="5s">Every 5 seconds</SelectItem>
                       <SelectItem value="10s">Every 10 seconds</SelectItem>
